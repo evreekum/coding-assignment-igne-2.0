@@ -24,7 +24,7 @@ function HomePage() {
 
     useEffect(() => {
         if (kenteken) {
-            setTradeName("");
+
             fetchCarData();
 
         }
@@ -91,7 +91,7 @@ function HomePage() {
             <header>
                 <img className="header_img" src={headerPicture} alt="Car Header Image"/>
                 <h1>Please enter your license plate number</h1>
-                <SearchBar setKentekenHandler={setKenteken}/>
+                <SearchBar setKentekenHandler={setKenteken} setImageHandler={setTradeName}/>
             </header>
             <main className="inner-container">
                 {Object.keys(carData).length > 0 &&
@@ -119,22 +119,22 @@ function HomePage() {
                     id="mySwiper"
                     breakpoints={{
                         576: {
-                            slidesPerView: 1,
+                            slidesPerView: 2,
                             // spaceBetween: 50
                         },
                         768: {
-                            slidesPerView: 2,
+                            slidesPerView: 3,
                             // spaceBetween: 20
                         },
                         1200: {
                             slidesPerView: 3,
                             // spaceBetween: 16
                         },
-                        1600: {
+                        1500: {
                             slidesPerView: 4,
                             // spaceBetween: 40
                         },
-                        2000: {
+                        1800: {
                             slidesPerView: 5,
                             // spaceBetween: 30
                         }
@@ -148,7 +148,7 @@ function HomePage() {
                             <div className="swiper_img-wrapper">
                                 <img
                                     className="swiper_img"
-                                    src={image.urls.regular}
+                                    src={image.urls.full}
                                     alt="Car image"
 
                                 />
