@@ -33,19 +33,19 @@ body {
 h1 {
     color: whitesmoke;
     margin-top: -180px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     box-shadow: inset 0px 0px 0px 200px rgba(0, 0, 0, 0.27);
     font-size: 20px;
 }
 
 h2 {
     text-transform: lowercase;
-    margin-bottom: 5px;
     font-size: 20px;
 }
 
 h4 {
-    font-size: 14px;
+    font-size: 10px;
+    margin-bottom: 5px;
 }
 
 h2:first-letter,
@@ -53,11 +53,19 @@ h4:first-letter {
     text-transform: capitalize;
 }
 
+@media screen and (min-width: 576px) {
+    h1 {
+        font-size: 22px;
+        margin-top: -280px;
+        margin-bottom: 10px;
+    }
+}
+
 
 @media screen and (min-width: 768px) {
     h1 {
         font-size: 24px;
-        margin-top: -280px;
+        margin-top: -300px;
         margin-bottom: 10px;
     }
 }
@@ -67,6 +75,12 @@ h4:first-letter {
         font-size: 28px;
         margin-top: -250px;
     }
+    h2 {
+        font-size: 28px;
+    }
+    h4 {
+        font-size: 14px;
+    }
 }
 
 @media screen and (min-width: 1200px) {
@@ -74,6 +88,7 @@ h4:first-letter {
         font-size: 32px;
 
     }
+
 }
 
 @media screen and (min-width: 1600px) {
@@ -93,8 +108,8 @@ header {
     height: fit-content;
     width: 100%;
     border: 1px solid black;
-    padding: 0;
-    margin: 0;
+    /*padding: 0;*/
+    /*margin: 0;*/
 
 }
 
@@ -166,13 +181,13 @@ main {
     border-radius: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 
 .swiper-wrapper {
     /*margin-top: -90px;*/
-    width: 100%;
+    /*width: 100%;*/
     /*align-self: center;*/
     /*display: flex;*/
     /*flex-direction: column;*/
@@ -194,32 +209,21 @@ main {
 
 .swiper_img {
     width: 100%;
-    /*min-width: 300px;*/
     height: 100%;
-    /*max-width: 600px;*/
-    /*max-height: 340px;*/
     object-fit: cover;
     object-position: center;
     border-radius: 4px;
-
-    /*flex-shrink: 3;*/
-    /*width: auto;*/
-    /*height: auto;*/
-    /*content: ;*/
 }
+
 .swiper_img-wrapper {
-    /*object-fit: cover;*/
     width: 100%;
     height: 220px;
     max-width: 600px;
-    /*max-height: 300px;*/
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 4px;
-
-    /*margin-bottom: 20px;*/
 }
 
 
