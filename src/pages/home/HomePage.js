@@ -123,12 +123,12 @@ function HomePage() {
                             // spaceBetween: 50
                         },
                         768: {
-                            slidesPerView: 3,
-                            // spaceBetween: 20
+                            slidesPerView: 2,
+                            spaceBetween: 30
                         },
                         1200: {
                             slidesPerView: 3,
-                            // spaceBetween: 16
+                            spaceBetween: 20
                         },
                         1500: {
                             slidesPerView: 4,
