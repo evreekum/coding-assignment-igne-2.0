@@ -12,7 +12,6 @@ import "swiper/css/scrollbar";
 
 const apiCarKey = process.env.REACT_APP_OVIO_API_KEY;
 const accessImageKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-const secretImageKey = process.env.REACT_APP_UNSPLASH_SECRET_KEY;
 
 
 function HomePage() {
@@ -25,6 +24,7 @@ function HomePage() {
 
     useEffect(() => {
         if (kenteken) {
+            setTradeName("");
             fetchCarData();
 
         }
@@ -32,6 +32,7 @@ function HomePage() {
 
     useEffect(() => {
         if (tradeName) {
+
             fetchImageData();
         }
     }, [tradeName]);
@@ -85,15 +86,12 @@ function HomePage() {
     }
 
 
-
     return (
         <div className="outer-container">
             <header>
-                <div className="header_img-container">
-                    <img className="header_img" src={headerPicture} alt="Car Header Image"/>
-                </div>
+                <img className="header_img" src={headerPicture} alt="Car Header Image"/>
                 <h1>Please enter your license plate number</h1>
-                <SearchBar setKentekenHandler={setKenteken} setImageHandler={tradeName}/>
+                <SearchBar setKentekenHandler={setKenteken}/>
             </header>
             <main className="inner-container">
                 {Object.keys(carData).length > 0 &&
@@ -110,9 +108,9 @@ function HomePage() {
             <footer className="swiper-wrapper inner-container" id="swiper-wrapper">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar]}
-                    spaceBetween={30}
+                    spaceBetween={20}
                     slidesPerView={1}
-                    // slidesPerGroup={9}
+                    // slidesPerGroup={2}
                     loop={true}
                     navigation={true}
                     // pagination={{clickable: true}}
@@ -121,31 +119,33 @@ function HomePage() {
                     id="mySwiper"
                     breakpoints={{
                         576: {
-                            slidesPerView: 1
+                            slidesPerView: 1,
+                            // spaceBetween: 50
                         },
                         768: {
                             slidesPerView: 2,
-                        },
-                        992: {
-                            slidesPerView: 2,
-                            spaceBetween: 30
+                            // spaceBetween: 20
                         },
                         1200: {
                             slidesPerView: 3,
-                            spaceBetween: 30
+                            // spaceBetween: 16
                         },
                         1600: {
-                            slidesPerView: 3,
-                            spaceBetween: 30
+                            slidesPerView: 4,
+                            // spaceBetween: 40
+                        },
+                        2000: {
+                            slidesPerView: 5,
+                            // spaceBetween: 30
                         }
 
-                        }
+                    }
                     }
 
                 >
                     {Object.keys(imageData).length > 0 && imageData.map((image) => (
                         <SwiperSlide key={image.blur_hash}>
-                            <div>
+                            <div className="swiper_img-wrapper">
                                 <img
                                     className="swiper_img"
                                     src={image.urls.regular}

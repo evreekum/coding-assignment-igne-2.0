@@ -7,7 +7,8 @@ function SearchBar({setKentekenHandler, setImageHandler}) {
     function onFormSubmit(e) {
         e.preventDefault();
         setKentekenHandler(query);
-        setImageHandler(query);
+        // setImageHandler(query);
+
     }
 
     return (
