@@ -8,6 +8,7 @@ function SearchBar({setKentekenHandler, setImageHandler}) {
         e.preventDefault();
         setKentekenHandler(query);
         setImageHandler(query);
+
     }
 
     return (

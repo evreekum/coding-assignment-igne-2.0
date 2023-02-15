@@ -27,57 +27,24 @@ body {
 }
 
 .inner-container {
-    height: 400px;
+    max-height: 400px;
 }
 
 h1 {
     color: whitesmoke;
-    margin-top: -250px;
-    box-shadow: inset 0px 0px 0px 200px rgba(0,0,0,0.27);
+    margin-top: -180px;
+    margin-bottom: 20px;
+    box-shadow: inset 0px 0px 0px 200px rgba(0, 0, 0, 0.27);
     font-size: 20px;
-}
-
-
-@media screen and (min-width: 768px) {
-    h1 {
-        font-size: 24px;
-    }
-
-}
-
-@media screen and (min-width: 992px){
-    h1 {
-        font-size: 28px;
-    }
-
-    /*.swiper_img {*/
-    /*    width: auto;*/
-    /*    height: 200px;*/
-    /*    object-fit: cover;*/
-    /*    border-radius: 4px;*/
-
-    /*    !*width: auto;*!*/
-    /*    !*height: auto;*!*/
-    /*    !*content: ;*!*/
-    /*}*/
-
-}
-
-@media screen and (min-width: 1200px){
-    h1 {
-        font-size: 32px;
-    }
-}
-
-@media screen and (min-width: 1600px){
-    h1 {
-        font-size: 36px;
-    }
-
 }
 
 h2 {
     text-transform: lowercase;
+    font-size: 20px;
+}
+
+h4 {
+    font-size: 10px;
     margin-bottom: 5px;
 }
 
@@ -86,8 +53,49 @@ h4:first-letter {
     text-transform: capitalize;
 }
 
-h4 {
-    font-size: 14px;
+@media screen and (min-width: 576px) {
+    h1 {
+        font-size: 22px;
+        margin-top: -280px;
+        margin-bottom: 10px;
+    }
+}
+
+
+@media screen and (min-width: 768px) {
+    h1 {
+        font-size: 24px;
+        margin-top: -300px;
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    h1 {
+        font-size: 28px;
+        margin-top: -250px;
+    }
+    h2 {
+        font-size: 28px;
+    }
+    h4 {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    h1 {
+        font-size: 32px;
+
+    }
+
+}
+
+@media screen and (min-width: 1600px) {
+    h1 {
+        font-size: 36px;
+
+    }
 }
 
 
@@ -97,11 +105,11 @@ header {
     justify-content: center;
     align-content: space-between;
     align-items: center;
-    height: auto;
+    height: fit-content;
     width: 100%;
     border: 1px solid black;
-    padding: 0;
-    margin: 0;
+    /*padding: 0;*/
+    /*margin: 0;*/
 
 }
 
@@ -111,16 +119,10 @@ header {
     width: 100%;
     max-height: 400px;
     object-fit: cover;
-    background-blend-mode: hard-light;
     background-color: black;
+    /*background-color: black;*/
     /*box-shadow: inset 0px 0px 0px 200px rgba(0,0,0,0.27);*/
 
-}
-
-
-.header_img-container {
-    width: inherit;
-    /*z-index: 1;*/
 }
 
 form {
@@ -135,16 +137,19 @@ button {
     height: 35px;
     width: 60px;
     border-color: transparent;
-    border-radius: 2px;
+    border-radius: 0 3px 3px 0;
     text-transform: capitalize;
     text-align: center;
+    background-color: #007AFF;
+    color: #FFFFFF;
 }
 
 input {
     background-color: #F6D781;
     height: 35px;
+    width: 170px;
     border-color: transparent;
-    border-radius: 2px;
+    border-radius: 3px 0 0 3px;
     font-weight: bolder;
     font-size: 20px;
     text-align: center;
@@ -154,13 +159,14 @@ input {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
+input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
     /*-webkit-box-shadow: 0 0 0 60px #F6D781 inset !important;*/
 }
 
 main {
-    width: 30%;
+    width: 80%;
+    max-width: 450px;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -169,24 +175,23 @@ main {
 }
 
 .car_info {
-    height: 200px;
+    height: 300px;
     background-color: #FFFFFF;
     padding: 15px;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 
-
-.swiper-container {
+.swiper-wrapper {
     /*margin-top: -90px;*/
-    width: 100%;
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /*width: 100%;*/
+    /*align-self: center;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
 
 }
 
@@ -198,17 +203,28 @@ main {
 
 #mySwiper {
     /*border-radius: 4px;*/
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 
 
 .swiper_img {
-    flex-basis: 600px;
-    height: 400px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
     border-radius: 4px;
-    flex-shrink: 3;
-    /*width: auto;*/
-    /*height: auto;*/
-    /*content: ;*/
 }
+
+.swiper_img-wrapper {
+    width: 100%;
+    height: 220px;
+    max-width: 600px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+
+

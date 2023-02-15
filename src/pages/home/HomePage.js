@@ -9,10 +9,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import TradeNameLength from "../../helpers/TradeNameLength";
 
 const apiCarKey = process.env.REACT_APP_OVIO_API_KEY;
 const accessImageKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-const secretImageKey = process.env.REACT_APP_UNSPLASH_SECRET_KEY;
 
 
 function HomePage() {
@@ -21,10 +21,14 @@ function HomePage() {
     const [imageData, setImageData] = useState({});
     // const [sliderImage, setSliderImage] = useState([]);
     const [tradeName, setTradeName] = useState("");
-    let [headerPicture, setHeaderPicture] = useState("");
+    const [backUpTradeName, setBackUpTradeName] = useState("");
+    const [headerPicture, setHeaderPicture] = useState("");
+    const [error, toggleError] = useState(false);
+    const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
         if (kenteken) {
+
             fetchCarData();
 
         }
@@ -32,11 +36,28 @@ function HomePage() {
 
     useEffect(() => {
         if (tradeName) {
+
             fetchImageData();
         }
     }, [tradeName]);
 
+    useEffect(() => {
+        if (imageData > 0) {
+
+            fetchImageData(tradeName);
+            console.log(fetchImageData(tradeName))
+        } else {
+            fetchImageData(backUpTradeName);
+            console.log(fetchImageData(backUpTradeName))
+        }
+    }, []);
+
+
+
     async function fetchCarData() {
+        toggleError(false);
+        toggleLoading(true);
+
 
         try {
             const response = await axios.get(`https://api.overheid.io/voertuiggegevens/${kenteken}`, {
@@ -47,33 +68,45 @@ function HomePage() {
                 }
             });
             setCarData(response.data);
-            const imageTradeName = [response.data.merk, response.data.handelsbenaming];
-            setTradeName(imageTradeName.join(" "));
+            const imageTradeNameRaw = [response.data.merk, response.data.handelsbenaming];
+            const imageTradeNameUpdated = imageTradeNameRaw.join(" ");
+            const imageTradeNameFormatted = imageTradeNameUpdated.replace("-", " ");
+            // setTradeName(TradeNameLength(imageTradeNameFormatted));
+            // setTradeName(imageTradeNameFormatted);
+            setTradeName(imageTradeNameUpdated);
+            setBackUpTradeName(response.data.merk);
+            console.log("Formatted:", imageTradeNameFormatted);
             console.log(tradeName);
+            console.log(response.data.merk)
             console.log(response.data);
-            /*   console.log("Trade name:", response.data.merk, response.data.handelsbenaming);
-               console.log("First admission:", response.data.datum_eerste_toelating);
-               console.log("Fuel description:", response.data.brandstof[0].brandstof_omschrijving);*/
+            console.log("Trade name:", response.data.merk, response.data.handelsbenaming);
+            // console.log("First admission:", response.data.datum_eerste_toelating);
+            // console.log("Fuel description:", response.data.brandstof[0].brandstof_omschrijving);
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
+        toggleLoading(false);
     }
 
 
     async function fetchImageData() {
+        toggleError(false);
+        toggleLoading(true);
 
         try {
-            const response = await axios.get(`https://api.unsplash.com/search/photos/?client_id=${accessImageKey}&query=${tradeName}`, {
+            const response = await axios.get(`https://api.unsplash.com/search/photos/?client_id=${accessImageKey}`, {
                 headers: {
                     "Accept-Version": "v1",
                     "Content-Type": "application/json",
                 },
                 params: {
-                    // query: "volkswagen golf",
-                    orientation: "landscape"
+                    query: tradeName,
+                    orientation: "landscape",
+                    order_by: "relevant",
                 }
             });
-            console.log(response.data);
+            console.log("Results:", response.data);
             setImageData(response.data.results);
             setHeaderPicture(response.data.results[0].urls.full);
             console.log("Results image id:", response.data.results.blur_hash);
@@ -82,37 +115,42 @@ function HomePage() {
         } catch (e) {
             console.error(e);
         }
+        toggleLoading(false);
     }
-
 
 
     return (
         <div className="outer-container">
             <header>
-                <div className="header_img-container">
-                    <img className="header_img" src={headerPicture} alt="Car Header Image"/>
-                </div>
+                <img className="header_img" src={headerPicture} alt="Car Header Image"/>
                 <h1>Please enter your license plate number</h1>
-                <SearchBar setKentekenHandler={setKenteken} setImageHandler={tradeName}/>
+                {loading && <p className="loading-message">Searching...</p>}
+                <SearchBar setKentekenHandler={setKenteken} setImageHandler={setTradeName}/>
             </header>
             <main className="inner-container">
                 {Object.keys(carData).length > 0 &&
                     <div className="car_info">
-                        <h4>trade name</h4>
-                        <h2>{carData.merk} {carData.handelsbenaming}</h2>
-                        <h4>date of first admission</h4>
-                        <h2>{FormatDate(carData.datum_eerste_toelating)}</h2>
-                        <h4>fuel description</h4>
-                        <h2>{carData.brandstof[0].brandstof_omschrijving}</h2>
+                        <div>
+                            <h4>trade name</h4>
+                            <h2>{carData.merk} {carData.handelsbenaming}</h2>
+                        </div>
+                        <div>
+                            <h4>date of first admission</h4>
+                            <h2>{FormatDate(carData.datum_eerste_toelating)}</h2>
+                        </div>
+                        <div>
+                            <h4>fuel description</h4>
+                            <h2>{carData.brandstof[0].brandstof_omschrijving}</h2>
+                        </div>
                     </div>
                 }
             </main>
             <footer className="swiper-wrapper inner-container" id="swiper-wrapper">
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar]}
-                    spaceBetween={30}
+                    spaceBetween={20}
                     slidesPerView={1}
-                    // slidesPerGroup={9}
+                    // slidesPerGroup={2}
                     loop={true}
                     navigation={true}
                     // pagination={{clickable: true}}
@@ -121,34 +159,36 @@ function HomePage() {
                     id="mySwiper"
                     breakpoints={{
                         576: {
-                            slidesPerView: 1
+                            slidesPerView: 2,
+                            // spaceBetween: 50
                         },
                         768: {
-                            slidesPerView: 2,
-                        },
-                        992: {
                             slidesPerView: 2,
                             spaceBetween: 30
                         },
                         1200: {
                             slidesPerView: 3,
-                            spaceBetween: 30
+                            spaceBetween: 20
                         },
-                        1600: {
-                            slidesPerView: 3,
-                            spaceBetween: 30
+                        1500: {
+                            slidesPerView: 4,
+                            // spaceBetween: 40
+                        },
+                        1800: {
+                            slidesPerView: 5,
+                            // spaceBetween: 30
                         }
 
-                        }
+                    }
                     }
 
                 >
                     {Object.keys(imageData).length > 0 && imageData.map((image) => (
                         <SwiperSlide key={image.blur_hash}>
-                            <div>
+                            <div className="swiper_img-wrapper">
                                 <img
                                     className="swiper_img"
-                                    src={image.urls.regular}
+                                    src={image.urls.full}
                                     alt="Car image"
 
                                 />
@@ -156,8 +196,6 @@ function HomePage() {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-                {/*<button type="button" onClick={fetchImageData}>Haal data op!</button>*/}
-
             </footer>
 
         </div>
