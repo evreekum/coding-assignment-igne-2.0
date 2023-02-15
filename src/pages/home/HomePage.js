@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import TradeNameLength from "../../helpers/TradeNameLength";
 
 const apiCarKey = process.env.REACT_APP_OVIO_API_KEY;
 const accessImageKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
@@ -40,6 +41,19 @@ function HomePage() {
         }
     }, [tradeName]);
 
+    useEffect(() => {
+        if (imageData > 0) {
+
+            fetchImageData(tradeName);
+            console.log(fetchImageData(tradeName))
+        } else {
+            fetchImageData(backUpTradeName);
+            console.log(fetchImageData(backUpTradeName))
+        }
+    }, []);
+
+
+
     async function fetchCarData() {
         toggleError(false);
         toggleLoading(true);
@@ -57,7 +71,9 @@ function HomePage() {
             const imageTradeNameRaw = [response.data.merk, response.data.handelsbenaming];
             const imageTradeNameUpdated = imageTradeNameRaw.join(" ");
             const imageTradeNameFormatted = imageTradeNameUpdated.replace("-", " ");
-            setTradeName(imageTradeNameFormatted);
+            // setTradeName(TradeNameLength(imageTradeNameFormatted));
+            // setTradeName(imageTradeNameFormatted);
+            setTradeName(imageTradeNameUpdated);
             setBackUpTradeName(response.data.merk);
             console.log("Formatted:", imageTradeNameFormatted);
             console.log(tradeName);
