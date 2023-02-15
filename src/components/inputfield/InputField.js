@@ -1,6 +1,5 @@
 import React from "react";
 
-
 function InputField({register, name, validationObject, id, type, placeholder, errors, onCLick}) {
 
     return (

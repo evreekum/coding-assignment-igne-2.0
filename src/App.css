@@ -1,5 +1,7 @@
 :root {
-
+    --main-bg-color: #f6f6f6;
+    --input-bg-color: #F6D781;
+    --btn-bg-color: #007AFF;
 }
 
 * {
@@ -10,15 +12,12 @@
 
 body {
     font-family: 'farro', sans-serif;
-    background-color: #f6f6f6;
-    /*display: flex;*/
-    /*flex-direction: column;*/
+    background-color: var(--main-bg-color);
     height: 100vh;
 }
 
 
 .outer-container {
-    /*position: fixed;*/
     width: 100vw;
     height: 100vh;
     z-index: 1000;
@@ -43,15 +42,13 @@ h2 {
 
 h4 {
     font-size: 12px;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
 
 h2:first-letter,
 h4:first-letter {
     text-transform: capitalize;
 }
-
-
 
 .header-container {
     background-size: cover;
@@ -68,12 +65,12 @@ h4:first-letter {
     flex-shrink: 0;
 }
 
-
 form {
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
+    margin-bottom: 5px;
 }
 
 label {
@@ -83,12 +80,12 @@ label {
     justify-content: center;
     align-items: center;
     align-content: center;
-    margin-bottom: 10vh;
-    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-top: 2vh;
 }
 
 input {
-    background-color: #F6D781;
+    background-color: var(--input-bg-color);
     height: 35px;
     width: 170px;
     border-color: transparent;
@@ -109,11 +106,10 @@ button {
     border-radius: 0 3px 3px 0;
     text-transform: capitalize;
     text-align: center;
-    background-color: #007AFF;
+    background-color: var(--btn-bg-color);
     color: #FFFFFF;
+    cursor: pointer;
 }
-
-
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -124,16 +120,11 @@ input:-webkit-autofill:active {
 
 .input-container {
     display: flex;
-
-    /*min-height: 50px;*/
 }
 
 main {
     width: 80%;
     max-width: 500px;
-    /*height: 40vh;*/
-    /*height: auto;*/
-    /*max-height: 40vh;*/
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -142,13 +133,14 @@ main {
     margin-top: 0;
     z-index: 2;
 }
+
 .main-container {
     height: 25vh;
-    margin-top: 3vh;
+    margin-top: 10px;
     margin-bottom: 10vh;
- }
- .car_info-card {
-     /*max-height: 50vh;*/
+}
+
+.car_info-card {
     height: 50vh;
     flex-wrap: wrap;
     background-color: #FFFFFF;
@@ -157,14 +149,11 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
-    /*flex-shrink: 2;*/
 }
 
- .car_info-card > div {
-
- }
-
+.car_info-card > div {
+    margin-bottom: 10px;
+}
 
 footer {
     margin-top: 20px;
@@ -181,8 +170,7 @@ footer {
 }
 
 #mySwiper {
-    /*padding: 10px;*/
-    margin: 10px;
+    padding: 10px;
 }
 
 .swiper_img {
@@ -200,7 +188,25 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*border-radius: 4px;*/
+}
+
+.error-message {
+    color: red;
+    z-index: 1;
+    font-size: 12px;
+    box-shadow: inset 0 0 0 200px rgba(0, 0, 0, 0.5);
+}
+
+.loading-message {
+    color: #FFFFFF;
+    font-size: 15px;
+    margin-top: 20px;
+}
+
+.error-message-container {
+    /*margin-top: -3vh;*/
+    margin-top: -25px;
+    margin-bottom: 40px;
 }
 
 
@@ -208,12 +214,49 @@ footer {
     h1 {
         font-size: 28px;
     }
+
+    .main-container {
+        margin-top: -6vh;
+    }
+
+    .error-message {
+        font-size: 15px;
+    }
 }
 
 
 @media screen and (min-width: 768px) {
     h1 {
         font-size: 30px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+
+    .main-container {
+        margin-top: -6vh;
+    }
+
+    form {
+        margin-bottom: 0;
+    }
+
+    label {
+        margin-bottom: 0;
+    }
+
+    .error-message {
+        font-size: 20px;
+    }
+
+    .error-message-container {
+        margin-top: 25px;
+        margin-bottom: 0px;
     }
 }
 
@@ -231,8 +274,7 @@ footer {
     }
 
     .main-container {
-        margin-top: -5vh;
-
+        margin-top: -3vh;
     }
 }
 
@@ -241,6 +283,9 @@ footer {
         font-size: 38px;
     }
 
+    .car_info-card {
+        min-height: 270px;
+    }
 }
 
 @media screen and (min-width: 1600px) {
@@ -249,9 +294,3 @@ footer {
     }
 }
 
-
-.loading-message,
-.error-message {
-    color: red;
-    z-index: 1;
-}

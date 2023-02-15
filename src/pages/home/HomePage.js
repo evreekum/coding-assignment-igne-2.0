@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import "./HomePage.css";
 import SearchBar from "../../components/searchbar/SearchBar";
 import FormatDate from "../../helpers/FormatDate";
 import {Swiper, SwiperSlide} from "swiper/react";
@@ -20,7 +19,8 @@ function HomePage() {
     const [imageData, setImageData] = useState({});
     const [tradeName, setTradeName] = useState("");
     const [headerPicture, setHeaderPicture] = useState("");
-    const [error, toggleError] = useState(false);
+    const [errorLicensePlate, toggleErrorLicensePlate] = useState(false);
+    const [errorImage, toggleErrorImage] = useState(false);
     const [loading, toggleLoading] = useState(false);
 
     useEffect(() => {
@@ -39,7 +39,7 @@ function HomePage() {
 
 
     async function fetchCarData() {
-        toggleError(false);
+        toggleErrorLicensePlate(false);
         toggleLoading(true);
 
 
@@ -55,21 +55,16 @@ function HomePage() {
             const imageTradeNameRaw = [response.data.merk, response.data.handelsbenaming];
             const imageTradeNameFormatted = imageTradeNameRaw.join(" ");
             setTradeName(imageTradeNameFormatted.replaceAll("-", " "));
-            console.log("Formatted:", imageTradeNameFormatted);
-            console.log(tradeName);
-            console.log(response.data.merk)
-            console.log(response.data);
-            console.log("Trade name:", response.data.merk, response.data.handelsbenaming);
         } catch (e) {
             console.error(e);
-            toggleError(true);
+            toggleErrorLicensePlate(true);
         }
         toggleLoading(false);
     }
 
 
     async function fetchImageData() {
-        toggleError(false);
+        toggleErrorImage(false);
         toggleLoading(true);
 
         try {
@@ -89,7 +84,7 @@ function HomePage() {
             setHeaderPicture(response.data.results[0].urls.full);
         } catch (e) {
             console.error(e);
-            toggleError(true);
+            toggleErrorImage(true);
         }
         toggleLoading(false);
     }
@@ -97,13 +92,12 @@ function HomePage() {
     return (
         <div className="outer-container">
             <header className="header-container" style={{backgroundImage: `url("${headerPicture}"`}}>
-                {/*<img className="header_img" src={headerPicture} alt="Car Header Image"/>*/}
                 <SearchBar setKentekenHandler={setKenteken} setImageHandler={setTradeName}/>
                 {loading && <p className="loading-message">Searching...</p>}
-                {error &&
-                <p className="error-message">Fill in a license plate numbers</p>}
-                {imageData.length === 0 && error &&
-                    <div className="error-message"><p>Fill in a license plate numbers</p></div>}
+                {errorLicensePlate &&
+                <div className="error-message-container"><p className="error-message">Invalid: Fill in a valid license plate number and try again</p></div>}
+                {errorImage &&
+                    <div className="error-message-container"><p className="error-message">No images found for this type of vehicle</p></div>}
 
             </header>
             <main className="main-container">
@@ -166,7 +160,6 @@ function HomePage() {
                     ))}
                 </Swiper>
             </footer>
-
         </div>
     )
 }
