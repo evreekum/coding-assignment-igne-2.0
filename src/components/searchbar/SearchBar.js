@@ -4,6 +4,7 @@ import React, {useState} from "react";
 function SearchBar({setKentekenHandler, setImageHandler}) {
     const [query, setQuery] = useState("6-XXH-68");
     const cleanSearch = () => setQuery("");
+
     function onFormSubmit(e) {
         e.preventDefault();
         setKentekenHandler(query);
@@ -14,20 +15,25 @@ function SearchBar({setKentekenHandler, setImageHandler}) {
     return (
         <span className="searchbar">
             <form onSubmit={onFormSubmit}>
-                <input
-                    type="search"
-                    name="search"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onClick={cleanSearch}
-                    placeholder="6-XXH-68"
-                />
-                <button
-                    type="submit"
-                    onSubmit={onFormSubmit}
-                >
-                send
-                </button>
+                <label htmlFor="numberPlateInput"><h1>Please enter your license plate number</h1>
+                    <div className="input-container">
+                    <input
+                        id="numberPlateInput"
+                        type="search"
+                        name="search"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onClick={cleanSearch}
+                        placeholder="6-XXH-68"
+                    />
+                    <button
+                        type="submit"
+                        onSubmit={onFormSubmit}
+                    >
+                    send
+                    </button>
+                    </div>
+                </label>
             </form>
         </span>
     )

@@ -4,24 +4,21 @@ import "./HomePage.css";
 import SearchBar from "../../components/searchbar/SearchBar";
 import FormatDate from "../../helpers/FormatDate";
 import {Swiper, SwiperSlide} from "swiper/react";
-import {Navigation, Pagination, Scrollbar} from "swiper";
+import {Navigation} from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import TradeNameLength from "../../helpers/TradeNameLength";
+
 
 const apiCarKey = process.env.REACT_APP_OVIO_API_KEY;
 const accessImageKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
-
 
 function HomePage() {
     const [carData, setCarData] = useState({});
     const [kenteken, setKenteken] = useState("6-XXH-68");
     const [imageData, setImageData] = useState({});
-    // const [sliderImage, setSliderImage] = useState([]);
     const [tradeName, setTradeName] = useState("");
-    const [backUpTradeName, setBackUpTradeName] = useState("");
     const [headerPicture, setHeaderPicture] = useState("");
     const [error, toggleError] = useState(false);
     const [loading, toggleLoading] = useState(false);
@@ -35,23 +32,10 @@ function HomePage() {
     }, [kenteken]);
 
     useEffect(() => {
-        if (tradeName) {
 
             fetchImageData();
-        }
+
     }, [tradeName]);
-
-    useEffect(() => {
-        if (imageData > 0) {
-
-            fetchImageData(tradeName);
-            console.log(fetchImageData(tradeName))
-        } else {
-            fetchImageData(backUpTradeName);
-            console.log(fetchImageData(backUpTradeName))
-        }
-    }, []);
-
 
 
     async function fetchCarData() {
@@ -69,19 +53,13 @@ function HomePage() {
             });
             setCarData(response.data);
             const imageTradeNameRaw = [response.data.merk, response.data.handelsbenaming];
-            const imageTradeNameUpdated = imageTradeNameRaw.join(" ");
-            const imageTradeNameFormatted = imageTradeNameUpdated.replace("-", " ");
-            // setTradeName(TradeNameLength(imageTradeNameFormatted));
-            // setTradeName(imageTradeNameFormatted);
-            setTradeName(imageTradeNameUpdated);
-            setBackUpTradeName(response.data.merk);
+            const imageTradeNameFormatted = imageTradeNameRaw.join(" ");
+            setTradeName(imageTradeNameFormatted.replaceAll("-", " "));
             console.log("Formatted:", imageTradeNameFormatted);
             console.log(tradeName);
             console.log(response.data.merk)
             console.log(response.data);
             console.log("Trade name:", response.data.merk, response.data.handelsbenaming);
-            // console.log("First admission:", response.data.datum_eerste_toelating);
-            // console.log("Fuel description:", response.data.brandstof[0].brandstof_omschrijving);
         } catch (e) {
             console.error(e);
             toggleError(true);
@@ -106,30 +84,31 @@ function HomePage() {
                     order_by: "relevant",
                 }
             });
-            console.log("Results:", response.data);
+
             setImageData(response.data.results);
             setHeaderPicture(response.data.results[0].urls.full);
-            console.log("Results image id:", response.data.results.blur_hash);
-            console.log("found tradename:", tradeName);
-            // setSliderImage(response.data.slice(1, 6));
         } catch (e) {
             console.error(e);
+            toggleError(true);
         }
         toggleLoading(false);
     }
 
-
     return (
         <div className="outer-container">
-            <header>
-                <img className="header_img" src={headerPicture} alt="Car Header Image"/>
-                <h1>Please enter your license plate number</h1>
-                {loading && <p className="loading-message">Searching...</p>}
+            <header className="header-container" style={{backgroundImage: `url("${headerPicture}"`}}>
+                {/*<img className="header_img" src={headerPicture} alt="Car Header Image"/>*/}
                 <SearchBar setKentekenHandler={setKenteken} setImageHandler={setTradeName}/>
+                {loading && <p className="loading-message">Searching...</p>}
+                {error &&
+                <p className="error-message">Fill in a license plate numbers</p>}
+                {imageData.length === 0 && error &&
+                    <div className="error-message"><p>Fill in a license plate numbers</p></div>}
+
             </header>
-            <main className="inner-container">
+            <main className="main-container">
                 {Object.keys(carData).length > 0 &&
-                    <div className="car_info">
+                    <div className="car_info-card">
                         <div>
                             <h4>trade name</h4>
                             <h2>{carData.merk} {carData.handelsbenaming}</h2>
@@ -145,22 +124,18 @@ function HomePage() {
                     </div>
                 }
             </main>
-            <footer className="swiper-wrapper inner-container" id="swiper-wrapper">
+            <footer className="swiper-wrapper footer-container" id="swiper-wrapper">
                 <Swiper
-                    modules={[Navigation, Pagination, Scrollbar]}
+                    modules={[Navigation]}
                     spaceBetween={20}
                     slidesPerView={1}
-                    // slidesPerGroup={2}
                     loop={true}
                     navigation={true}
-                    // pagination={{clickable: true}}
-                    // scrollbar={{draggable: true}}
                     className="mySwiper"
                     id="mySwiper"
                     breakpoints={{
                         576: {
                             slidesPerView: 2,
-                            // spaceBetween: 50
                         },
                         768: {
                             slidesPerView: 2,
@@ -171,17 +146,12 @@ function HomePage() {
                             spaceBetween: 20
                         },
                         1500: {
-                            slidesPerView: 4,
-                            // spaceBetween: 40
+                            slidesPerView: 4
                         },
                         1800: {
-                            slidesPerView: 5,
-                            // spaceBetween: 30
+                            slidesPerView: 5
                         }
-
-                    }
-                    }
-
+                    }}
                 >
                     {Object.keys(imageData).length > 0 && imageData.map((image) => (
                         <SwiperSlide key={image.blur_hash}>
@@ -190,7 +160,6 @@ function HomePage() {
                                     className="swiper_img"
                                     src={image.urls.full}
                                     alt="Car image"
-
                                 />
                             </div>
                         </SwiperSlide>
