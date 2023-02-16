@@ -11,7 +11,7 @@
 }
 
 body {
-    font-family: 'farro', sans-serif;
+    font-family: 'Varela Round', sans-serif;
     background-color: var(--main-bg-color);
     height: 100vh;
 }
@@ -37,12 +37,11 @@ h1 {
 h2 {
     text-transform: lowercase;
     font-size: 20px;
-
 }
 
 h4 {
     font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 h2:first-letter,
@@ -67,9 +66,9 @@ h4:first-letter {
 
 form {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*align-content: center;*/
     margin-bottom: 5px;
 }
 
@@ -79,7 +78,7 @@ label {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    align-content: center;
+    /*align-content: center;*/
     margin-bottom: 5vh;
     margin-top: 2vh;
 }
@@ -151,10 +150,6 @@ main {
     justify-content: space-around;
 }
 
-.car_info-card > div {
-    margin-bottom: 10px;
-}
-
 footer {
     margin-top: 20px;
     position: fixed;
@@ -163,10 +158,6 @@ footer {
 
 .footer-container {
     height: 25vh;
-}
-
-#swiper-wrapper {
-
 }
 
 #mySwiper {
@@ -198,13 +189,12 @@ footer {
 }
 
 .loading-message {
-    color: #FFFFFF;
+    color: var(--main-bg-color);
     font-size: 15px;
     margin-top: 20px;
 }
 
 .error-message-container {
-    /*margin-top: -3vh;*/
     margin-top: -25px;
     margin-bottom: 40px;
 }

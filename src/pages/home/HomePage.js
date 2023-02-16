@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import Main from "../../components/main/Main";
 
 
 const apiCarKey = process.env.REACT_APP_OVIO_API_KEY;
@@ -118,6 +119,16 @@ function HomePage() {
                     </div>
                 }
             </main>
+
+          {/*  <Main
+                objectKeys={carData}
+                className="main-container"
+                foundBrand={carData.merk}
+                foundTradeName={carData.handelsbenaming}
+                foundDate={carData.datum_eerste_toelating}
+                foundFuel={carData.brandstof[0].brandstof_omschrijving}
+            />*/}
+
             <footer className="swiper-wrapper footer-container" id="swiper-wrapper">
                 <Swiper
                     modules={[Navigation]}
